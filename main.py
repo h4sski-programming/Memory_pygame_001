@@ -1,11 +1,10 @@
 import sys
-
 import pygame as pg
-from pygame import mixer
 
-from button import Btn
 from settings import *
+from button import Btn
 from sound import Sound
+from guess import Guess
 
 
 class Game:
@@ -16,15 +15,17 @@ class Game:
         self.clock = self.pg.time.Clock()
         self.sound = Sound(self)
 
-        self.is_running = True
-        self.new_game()
-
-    def new_game(self):
-        # pass
         self.btn_q = Btn(self, name='q')
         self.btn_w = Btn(self, name='w')
         self.btn_a = Btn(self, name='a')
         self.btn_s = Btn(self, name='s')
+        self.guess = Guess(self)
+
+        self.is_running = True
+        self.new_game()
+
+    def new_game(self):
+        self.guess.play_correct()
 
     def update(self):
 
@@ -49,17 +50,17 @@ class Game:
             if event.type == self.pg.KEYDOWN:
                 keys = self.pg.key.get_pressed()
                 if keys[self.pg.K_q]:
-                    self.btn_q.activate()
                     self.sound.play_q()
+                    self.btn_q.press()
                 elif keys[self.pg.K_w]:
-                    self.btn_w.activate()
                     self.sound.play_w()
+                    self.btn_w.press()
                 elif keys[self.pg.K_a]:
-                    self.btn_a.activate()
                     self.sound.play_a()
+                    self.btn_a.press()
                 elif keys[self.pg.K_s]:
-                    self.btn_s.activate()
                     self.sound.play_s()
+                    self.btn_s.press()
             elif event.type == self.pg.KEYUP:
                 if self.btn_q.is_active:
                     self.btn_q.deactivate()

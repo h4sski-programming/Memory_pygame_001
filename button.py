@@ -9,6 +9,8 @@ class Btn:
         self.pos = 0, 0
         self.color = BLUE
         self.initial_settings()
+        self.font = self.game.pg.font.SysFont(None, BTN_TAG_FONT_SIZE)
+        self.tag = self.font.render(self.name, True, BTN_TAG_COLOR)
 
     def initial_settings(self):
         if self.name == 'w':
@@ -24,10 +26,17 @@ class Btn:
     def draw(self):
         if self.is_active:
             self.game.pg.draw.rect(self.game.screen, self.color,
-                         (self.pos[0] * BTN_WIDTH, self.pos[1] * BTN_HEIGHT, BTN_WIDTH, BTN_HEIGHT))
+                                   (self.pos[0] * BTN_WIDTH, self.pos[1] * BTN_HEIGHT, BTN_WIDTH, BTN_HEIGHT))
         else:
             self.game.pg.draw.rect(self.game.screen, self.color + '4',
-                         (self.pos[0] * BTN_WIDTH, self.pos[1] * BTN_HEIGHT, BTN_WIDTH, BTN_HEIGHT))
+                                   (self.pos[0] * BTN_WIDTH, self.pos[1] * BTN_HEIGHT, BTN_WIDTH, BTN_HEIGHT))
+
+        self.game.screen.blit(self.tag, (self.pos[0] * BTN_WIDTH + BTN_NAME_TAG_OFFSET_X,
+                                         self.pos[1] * BTN_HEIGHT + BTN_NAME_TAG_OFFSET_Y))
+
+    def press(self):
+        self.activate()
+        self.game.guess.check(self.name)
 
     def activate(self):
         self.is_active = True
