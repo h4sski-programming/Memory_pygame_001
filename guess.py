@@ -1,5 +1,8 @@
 import random
 
+from settings import *
+
+
 class Guess:
     def __init__(self, game):
         self.game = game
@@ -20,37 +23,32 @@ class Guess:
         for i, char in enumerate(self.correct):
             if char == 'q':
                 self.game.btn_q.activate()
-                self.game.sound.play_q()
-                self.game.pg.time.delay(1000)
+                self.game.pg.time.delay(DELAY_TIME)
                 self.game.btn_q.deactivate()
             elif char == 'w':
                 self.game.btn_w.activate()
-                self.game.sound.play_w()
-                self.game.pg.time.delay(1000)
+                self.game.pg.time.delay(DELAY_TIME)
                 self.game.btn_w.deactivate()
             elif char == 'a':
                 self.game.btn_a.activate()
-                self.game.sound.play_a()
-                self.game.pg.time.delay(1000)
+                self.game.pg.time.delay(DELAY_TIME)
                 self.game.btn_a.deactivate()
             elif char == 's':
                 self.game.btn_s.activate()
-                self.game.sound.play_s()
-                self.game.pg.time.delay(1000)
+                self.game.pg.time.delay(DELAY_TIME)
                 self.game.btn_s.deactivate()
 
     def check(self, btn):
         self.add_player(btn)
 
         for i, p in enumerate(self.player):
-            if self.correct[i] == self.player[i]:
-                continue
-            else:
+            if not self.correct[i] == self.player[i]:
                 print(f'incorrect')
+            else:
+                pass
 
         if len(self.player) == len(self.correct):
-            self.game.pg.time.delay(2000)
+            self.game.pg.time.delay(DELAY_TIME * 2)
             self.add_correct()
             self.player = []
             self.play_correct()
-

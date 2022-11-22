@@ -37,9 +37,19 @@ class Btn:
     def press(self):
         self.activate()
         self.game.guess.check(self.name)
+        self.deactivate()
 
     def activate(self):
         self.is_active = True
+        self.draw()
+        if self.name == 'q':
+            self.game.sound.play_q()
+        elif self.name == 'w':
+            self.game.sound.play_w()
+        elif self.name == 'a':
+            self.game.sound.play_a()
+        elif self.name == 's':
+            self.game.sound.play_s()
 
     def deactivate(self):
         self.is_active = False

@@ -25,10 +25,12 @@ class Game:
         self.new_game()
 
     def new_game(self):
+        self.update()
+        self.draw()
+        self.pg.time.delay(DELAY_TIME)
         self.guess.play_correct()
 
     def update(self):
-
         self.pg.display.flip()
         self.clock.tick(FPS)
         self.pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
@@ -50,26 +52,17 @@ class Game:
             if event.type == self.pg.KEYDOWN:
                 keys = self.pg.key.get_pressed()
                 if keys[self.pg.K_q]:
-                    self.sound.play_q()
+                    # self.sound.play_q()
                     self.btn_q.press()
                 elif keys[self.pg.K_w]:
-                    self.sound.play_w()
+                    # self.sound.play_w()
                     self.btn_w.press()
                 elif keys[self.pg.K_a]:
-                    self.sound.play_a()
+                    # self.sound.play_a()
                     self.btn_a.press()
                 elif keys[self.pg.K_s]:
-                    self.sound.play_s()
+                    # self.sound.play_s()
                     self.btn_s.press()
-            elif event.type == self.pg.KEYUP:
-                if self.btn_q.is_active:
-                    self.btn_q.deactivate()
-                if self.btn_w.is_active:
-                    self.btn_w.deactivate()
-                if self.btn_a.is_active:
-                    self.btn_a.deactivate()
-                if self.btn_s.is_active:
-                    self.btn_s.deactivate()
 
     def run(self):
         while self.is_running:
