@@ -52,17 +52,21 @@ class Game:
             if event.type == self.pg.KEYDOWN:
                 keys = self.pg.key.get_pressed()
                 if keys[self.pg.K_q]:
-                    # self.sound.play_q()
-                    self.btn_q.press()
+                    if self.guess.check(self.btn_q.name):
+                        self.btn_q.activate()
+                        # self.pg.time.delay(DELAY_TIME)
                 elif keys[self.pg.K_w]:
-                    # self.sound.play_w()
-                    self.btn_w.press()
+                    if self.guess.check(self.btn_w.name):
+                        self.btn_w.activate()
+                    # self.btn_w.press()
                 elif keys[self.pg.K_a]:
-                    # self.sound.play_a()
-                    self.btn_a.press()
+                    if self.guess.check(self.btn_a.name):
+                        self.btn_a.activate()
+                    # self.btn_a.press()
                 elif keys[self.pg.K_s]:
-                    # self.sound.play_s()
-                    self.btn_s.press()
+                    if self.guess.check(self.btn_s.name):
+                        self.btn_s.activate()
+                    # self.btn_s.press()
 
     def run(self):
         while self.is_running:
