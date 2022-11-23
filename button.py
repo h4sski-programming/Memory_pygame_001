@@ -14,6 +14,9 @@ class Btn:
         self.init_settup()
         self.color_darker = self.color + '4'
 
+    def __str__(self) -> str:
+        return self.name
+
     def init_settup(self):
         if self.name == 'q':
             self.position = 0, 0
@@ -40,8 +43,9 @@ class Btn:
             self.game.pg.draw.rect(self.game.screen, self.color,
                                    (self.position[0], self.position[1], BTN_WIDTH, BTN_HEIGHT))
 
-        self.game.screen.blit(self.tag, (self.position[0] + BTN_NAME_TAG_OFFSET_X,
-                                         self.position[1] + BTN_NAME_TAG_OFFSET_Y))
+        self.game.screen.blit(self.tag,
+                              (self.position[0] + BTN_NAME_TAG_OFFSET_X,
+                               self.position[1] + BTN_NAME_TAG_OFFSET_Y))
 
     def activate(self):
         self.is_active = True
@@ -49,6 +53,11 @@ class Btn:
 
     def deactivate(self):
         self.is_active = False
+
+    def pressed(self):
+        self.game.guess.add_player(self)
+        self.activate()
+
     '''
     def __init__(self, game, name):
         self.game = game

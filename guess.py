@@ -4,7 +4,37 @@ from settings import *
 
 
 class Guess:
+    def __init__(self, game) -> None:
+        self.game = game
+        self.pg = self.game.pg
+        self.correct = []
+        self.player = []
+        self.add_correct()
 
+    def add_correct(self):
+        self.correct.append(random.choice([
+            self.game.btn_q,
+            self.game.btn_w,
+            self.game.btn_a,
+            self.game.btn_s,
+        ]))
+
+    def print_player(self):
+        tmp_str = []
+        for b in self.player:
+            tmp_str.append(b.name)
+        print(f'P {tmp_str}')
+
+    def add_player(self, btn):
+        self.player.append(btn)
+        self.print_player()
+
+    def play_correct(self):
+        for b in self.correct:
+            b.activate()
+            print(f'C {b.name}')
+            self.game.pg.time.delay(DELAY_TIME)
+            b.deactivate()
 
     '''
     def __init__(self, game):
