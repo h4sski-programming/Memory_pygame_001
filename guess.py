@@ -4,6 +4,9 @@ from settings import *
 
 
 class Guess:
+
+
+    '''
     def __init__(self, game):
         self.game = game
         self.correct = []
@@ -55,4 +58,4 @@ class Guess:
             self.game.pg.time.delay(DELAY_TIME * 2)
             self.add_correct()
             self.player = []
-            self.play_correct()
+            self.play_correct()'''
