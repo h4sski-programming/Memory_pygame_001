@@ -10,6 +10,8 @@ class Guess:
         self.correct = []
         self.player = []
         self.add_correct()
+        self.add_correct()
+        self.add_correct()
 
     def add_correct(self):
         self.correct.append(random.choice([
@@ -20,21 +22,40 @@ class Guess:
         ]))
 
     def print_player(self):
-        tmp_str = []
+        tmp = []
         for b in self.player:
-            tmp_str.append(b.name)
-        print(f'P {tmp_str}')
+            tmp.append(b.name)
+        print(f'P {tmp}')
 
     def add_player(self, btn):
         self.player.append(btn)
         self.print_player()
 
-    def play_correct(self):
-        for b in self.correct:
-            b.activate()
-            print(f'C {b.name}')
-            self.game.pg.time.delay(DELAY_TIME)
-            b.deactivate()
+    def play_correct(self, i):
+        self.correct[i].activate()
+        self.game.pg.time.delay(DELAY_TIME)
+        self.correct[i].deactivate()
+        # tmp = []
+        # for b in self.correct:
+        #     b.activate()
+        #     tmp.append(b.name)
+        #     self.game.pg.time.delay(DELAY_TIME)
+        #     b.deactivate()
+        # print(f'C {tmp}')
+
+    def check_player_correct(self):
+
+        def check():
+            for i, p in self.player:
+                if not p.name == self.correct[i].name:
+                    print('incorrect')
+                    break
+
+        if len(self.player) < len(self.correct):
+            check()
+        if len(self.player) == len(self.correct):
+            check()
+            self.player = []
 
     '''
     def __init__(self, game):

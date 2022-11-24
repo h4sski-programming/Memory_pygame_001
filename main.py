@@ -14,13 +14,13 @@ class Main:
         self.clock = pg.time.Clock()
 
     def run(self):
-        home = Home(self)
-        while home.is_running:
-            home.run()
-            if home.start_game:
+        self.home = Home(self)
+        while self.home.is_running:
+            self.home.run()
+            if self.home.start_game:
                 game = Game(self)
                 game.run()
-                home.start_game = False
+                self.home.start_game = False
 
 
 if __name__ == '__main__':

@@ -23,8 +23,7 @@ class Game:
         self.new_game()
 
     def update(self):
-        self.pg.display.flip()
-        self.clock.tick(FPS)
+        self.pg.display.update()
         self.pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
 
     def draw(self):
@@ -44,10 +43,12 @@ class Game:
 
         for event in self.pg.event.get():
             keys = self.pg.key.get_pressed()
-            if keys[self.pg.K_ESCAPE] or keys[self.pg.K_o]:
+
+            if event.type == self.pg.QUIT:
                 self.is_running = False
-                # self.pg.quit()
-                # sys.exit()
+                self.m.home.is_running = False
+            if keys[self.pg.K_ESCAPE]:
+                self.is_running = False
 
             if keys:
                 deactive_all_btn(self)
@@ -64,13 +65,15 @@ class Game:
 
     def new_game(self):
         # pass
-        self.update()
-        self.draw()
-        self.pg.time.delay(DELAY_TIME)
-        self.guess.play_correct()
+        self.clock.tick(FPS)
+        for i in range(len(self.guess.correct)):
+            self.guess.play_correct(i)
+            self.draw()
+            self.update()
+        # self.pg.time.delay(DELAY_TIME)
 
     def run(self):
         while self.is_running:
             self.check_events()
-            self.update()
             self.draw()
+            self.update()

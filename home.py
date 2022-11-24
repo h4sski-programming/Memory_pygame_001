@@ -1,4 +1,3 @@
-import sys
 from settings import *
 
 
@@ -21,30 +20,42 @@ class Home:
 
     def draw(self):
         self.screen.fill(BLACK)
+
         self.pg.draw.rect(self.screen, GREEN,
-                          (50, 200, WINDOW_WIDTH/2 - 100, HOME_FONT_SIZE + HOME_TEXT_OFFSET))
+                          (HOME_START_X,
+                           HOME_START_Y,
+                           HOME_START_WIDTH,
+                           HOME_START_HEIGHT))
         self.screen.blit(self.start,
-                         (70, 220))
+                         (HOME_START_X + HOME_PADDING,
+                          HOME_START_Y + HOME_PADDING))
+
         self.pg.draw.rect(self.screen, RED,
-                          (WINDOW_WIDTH/2 + 50, 200, WINDOW_WIDTH/2 - 100, HOME_FONT_SIZE + HOME_TEXT_OFFSET))
+                          (HOME_EXIT_X,
+                           HOME_EXIT_Y,
+                           HOME_EXIT_WIDTH,
+                           HOME_EXIT_HEIGHT))
         self.screen.blit(self.exit_home,
-                         (WINDOW_WIDTH/2 + 70, 220))
+                         (HOME_EXIT_X + HOME_PADDING,
+                          HOME_EXIT_Y + HOME_PADDING))
 
     def check_events(self):
         for event in self.pg.event.get():
             if event.type == self.pg.QUIT or (event.type == self.pg.KEYDOWN and event.key == self.pg.K_ESCAPE):
                 self.is_running = False
-                # self.pg.quit()
-                # sys.exit()
 
-            keys = self.pg.key.get_pressed()
-            if keys[self.pg.K_p]:
-                self.start_game = True
+            lmb = self.pg.mouse.get_pressed()[0]
+            if lmb:
+                mouse_x, mouse_y = self.pg.mouse.get_pos()
+                if HOME_START_X < mouse_x < (HOME_START_X + HOME_START_WIDTH) and HOME_START_Y < mouse_y < (HOME_START_Y + HOME_START_HEIGHT):
+                    self.start_game = True
+                elif HOME_EXIT_X < mouse_x < (HOME_EXIT_X + HOME_EXIT_WIDTH) and HOME_EXIT_Y < mouse_y < (HOME_EXIT_Y + HOME_EXIT_HEIGHT):
+                    self.is_running = False
 
     def run(self):
         while self.is_running:
             self.check_events()
-            self.update()
             self.draw()
+            self.update()
             if self.start_game:
                 break
