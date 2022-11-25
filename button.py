@@ -7,6 +7,7 @@ class Btn:
         self.game = game
         self.name = name
         self.is_active = False
+        self.activate_time = 0
         self.font = self.game.pg.font.SysFont(None, BTN_TAG_FONT_SIZE)
         self.tag = self.font.render(self.name, True, BTN_TAG_COLOR)
         self.tag.set_alpha(BTN_TAG_COLOR_ALPHA)
@@ -49,6 +50,7 @@ class Btn:
 
     def activate(self):
         self.is_active = True
+        self.activate_time = self.game.pg.time.get_ticks()
         self.sound.play_sound()
 
     def deactivate(self):

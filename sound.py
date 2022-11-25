@@ -1,4 +1,4 @@
-
+from settings import *
 '''
 class Sound:
     def __init__(self, game):
@@ -40,4 +40,4 @@ class Sound2:
 
     def play_sound(self):
         self.file.play()
-        self.file.fadeout(700)
+        self.file.fadeout(BTN_DEACTIVATE_TIME)

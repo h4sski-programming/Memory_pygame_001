@@ -52,6 +52,9 @@ class Home:
                 elif HOME_EXIT_X < mouse_x < (HOME_EXIT_X + HOME_EXIT_WIDTH) and HOME_EXIT_Y < mouse_y < (HOME_EXIT_Y + HOME_EXIT_HEIGHT):
                     self.is_running = False
 
+            if event.type == self.pg.KEYDOWN and event.key == self.pg.K_RETURN:
+                self.start_game = True
+
     def run(self):
         while self.is_running:
             self.check_events()

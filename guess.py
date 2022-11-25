@@ -10,15 +10,13 @@ class Guess:
         self.correct = []
         self.player = []
         self.add_correct()
-        self.add_correct()
-        self.add_correct()
 
     def add_correct(self):
         self.correct.append(random.choice([
-            self.game.btn_q,
-            self.game.btn_w,
-            self.game.btn_a,
-            self.game.btn_s,
+            self.game.buttons['q'],
+            self.game.buttons['w'],
+            self.game.buttons['a'],
+            self.game.buttons['s'],
         ]))
 
     def print_player(self):
@@ -31,20 +29,28 @@ class Guess:
         self.player.append(btn)
         self.print_player()
 
-    def play_correct(self, i):
-        self.correct[i].activate()
-        self.game.pg.time.delay(DELAY_TIME)
-        self.correct[i].deactivate()
-        # tmp = []
-        # for b in self.correct:
-        #     b.activate()
-        #     tmp.append(b.name)
-        #     self.game.pg.time.delay(DELAY_TIME)
-        #     b.deactivate()
-        # print(f'C {tmp}')
+    def next_level(self):
+        if len(self.player) == len(self.correct):
+            self.add_correct()
+            self.player = []
+            return True
+        else:
+            return False
 
-    def check_player_correct(self):
+    def check_player_correct(self, new_btn):
+        new_btn_number = len(self.player)
+        # print(f'{new_btn.name}')
+        # print(f'{self.correct[new_btn_number].name}')
+        if new_btn.name == self.correct[new_btn_number].name:
+            self.add_player(new_btn)
+            new_btn.pressed()
+            return True
+        else:
+            print('incorrect')
+            return False
 
+
+'''
         def check():
             for i, p in self.player:
                 if not p.name == self.correct[i].name:
@@ -56,8 +62,8 @@ class Guess:
         if len(self.player) == len(self.correct):
             check()
             self.player = []
-
-    '''
+'''
+'''
     def __init__(self, game):
         self.game = game
         self.correct = []

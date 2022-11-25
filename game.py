@@ -14,10 +14,16 @@ class Game:
         self.clock = main.clock
         self.is_running = True
 
-        self.btn_q = Btn(self, name='q')
-        self.btn_w = Btn(self, name='w')
-        self.btn_a = Btn(self, name='a')
-        self.btn_s = Btn(self, name='s')
+        # btn_q = Btn(self, name='q'),
+        # btn_w = Btn(self, name='w'),
+        # btn_a = Btn(self, name='a'),
+        # btn_s = Btn(self, name='s'),
+        self.buttons = {
+            'q': Btn(self, name='q'),
+            'w': Btn(self, name='w'),
+            'a': Btn(self, name='a'),
+            's': Btn(self, name='s'),
+        }
         self.guess = Guess(self)
 
         self.new_game()
@@ -28,18 +34,19 @@ class Game:
 
     def draw(self):
         self.screen.fill(BLACK)
-        self.btn_q.draw()
-        self.btn_w.draw()
-        self.btn_a.draw()
-        self.btn_s.draw()
+        for btn in self.buttons.values():
+            btn.draw()
+
+    def deactivate_buttons(self):
+        for btn in self.buttons.values():
+            if self.pg.time.get_ticks() - btn.activate_time >= BTN_DEACTIVATE_TIME:
+                btn.deactivate()
 
     def check_events(self):
+        self.deactivate_buttons()
 
-        def deactive_all_btn(self):
-            self.btn_q.deactivate()
-            self.btn_w.deactivate()
-            self.btn_a.deactivate()
-            self.btn_s.deactivate()
+        if self.guess.next_level():
+            self.play_correct()
 
         for event in self.pg.event.get():
             keys = self.pg.key.get_pressed()
@@ -50,26 +57,35 @@ class Game:
             if keys[self.pg.K_ESCAPE]:
                 self.is_running = False
 
-            if keys:
-                deactive_all_btn(self)
-
-            if self.pg.KEYDOWN:
+            if event.type == self.pg.KEYDOWN:
                 if keys[self.pg.K_q]:
-                    self.btn_q.pressed()
+                    self.guess.check_player_correct(self.buttons['q'])
+                    # self.buttons['q'].pressed()
                 elif keys[self.pg.K_w]:
-                    self.btn_w.pressed()
+                    self.guess.check_player_correct(self.buttons['w'])
+                    # self.buttons['w'].pressed()
                 elif keys[self.pg.K_a]:
-                    self.btn_a.pressed()
+                    self.guess.check_player_correct(self.buttons['a'])
+                    # self.buttons['a'].pressed()
                 elif keys[self.pg.K_s]:
-                    self.btn_s.pressed()
+                    self.guess.check_player_correct(self.buttons['s'])
+                    # self.buttons['s'].pressed()
+
+    def play_correct(self):
+        tmp = []
+        for correct_btn in self.guess.correct:
+            self.deactivate_buttons()
+            correct_btn.activate()
+            self.draw()
+            self.update()
+            self.pg.time.wait(DELAY_TIME)
+            tmp.append(correct_btn.name)
+        print(tmp)
 
     def new_game(self):
         # pass
         self.clock.tick(FPS)
-        for i in range(len(self.guess.correct)):
-            self.guess.play_correct(i)
-            self.draw()
-            self.update()
+        self.play_correct()
         # self.pg.time.delay(DELAY_TIME)
 
     def run(self):
