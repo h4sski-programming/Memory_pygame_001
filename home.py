@@ -6,9 +6,13 @@ class Home:
         self.pg = main.pg
         self.clock = main.clock
         self.screen = main.screen
+        self.score = 0
         self.title = 'Home screen'
         self.is_running = True
         self.start_game = False
+        self.score_font = self.pg.font.SysFont('Ubuntu', HOME_SCORE_FONT_SIZE)
+        self.score_tag = self.score_font.render(
+            f'Score = {self.score}', True, WHITE)
         self.font = self.pg.font.SysFont(None, HOME_FONT_SIZE)
         self.start = self.font.render('Start', True, WHITE)
         self.exit_home = self.font.render('Exit', True, WHITE)
@@ -17,9 +21,12 @@ class Home:
         self.pg.display.flip()
         self.clock.tick(FPS)
         self.pg.display.set_caption(f'{self.title}')
+        self.score_tag = self.font.render(f'Score = {self.score}', True, WHITE)
 
     def draw(self):
         self.screen.fill(BLACK)
+
+        self.screen.blit(self.score_tag, HOME_SCORE_POS)
 
         self.pg.draw.rect(self.screen, GREEN,
                           (HOME_START_X,

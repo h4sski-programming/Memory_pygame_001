@@ -21,6 +21,7 @@ class Main:
                 game = Game(self)
                 game.run()
                 self.home.start_game = False
+                self.home.score = game.score
 
 
 if __name__ == '__main__':

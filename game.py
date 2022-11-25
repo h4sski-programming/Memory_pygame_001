@@ -1,8 +1,5 @@
-import sys
-
 from settings import *
 from button import Btn
-# from sound import Sound
 from guess import Guess
 
 
@@ -13,11 +10,8 @@ class Game:
         self.screen = main.screen
         self.clock = main.clock
         self.is_running = True
+        self.score = 0
 
-        # btn_q = Btn(self, name='q'),
-        # btn_w = Btn(self, name='w'),
-        # btn_a = Btn(self, name='a'),
-        # btn_s = Btn(self, name='s'),
         self.buttons = {
             'q': Btn(self, name='q'),
             'w': Btn(self, name='w'),
@@ -29,7 +23,7 @@ class Game:
         self.new_game()
 
     def update(self):
-        self.pg.display.update()
+        self.pg.display.flip()
         self.pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
 
     def draw(self):
@@ -59,34 +53,44 @@ class Game:
 
             if event.type == self.pg.KEYDOWN:
                 if keys[self.pg.K_q]:
-                    self.guess.check_player_correct(self.buttons['q'])
-                    # self.buttons['q'].pressed()
+                    if not self.guess.check_player_correct(self.buttons['q']):
+                        self.is_running = False
                 elif keys[self.pg.K_w]:
-                    self.guess.check_player_correct(self.buttons['w'])
-                    # self.buttons['w'].pressed()
+                    if not self.guess.check_player_correct(self.buttons['w']):
+                        self.is_running = False
                 elif keys[self.pg.K_a]:
-                    self.guess.check_player_correct(self.buttons['a'])
-                    # self.buttons['a'].pressed()
+                    if not self.guess.check_player_correct(self.buttons['a']):
+                        self.is_running = False
                 elif keys[self.pg.K_s]:
-                    self.guess.check_player_correct(self.buttons['s'])
-                    # self.buttons['s'].pressed()
+                    if not self.guess.check_player_correct(self.buttons['s']):
+                        self.is_running = False
+
+        if not self.is_running:
+            self.score = len(self.guess.correct) - 1
 
     def play_correct(self):
         tmp = []
-        for correct_btn in self.guess.correct:
-            self.deactivate_buttons()
-            correct_btn.activate()
+        i = 0
+        play_next_time = self.pg.time.get_ticks() + DELAY_TIME
+        while True:
+            if self.pg.time.get_ticks() > play_next_time:
+                self.guess.correct[i].activate()
+                tmp.append(self.guess.correct[i].name)
+                play_next_time = self.pg.time.get_ticks() + DELAY_TIME
+                i += 1
+
+            # I think that this way is better then move this conndition to while loop.
+            # This way I'm not constantly requesting for value "len(self.guess.correct)".
+            if i >= len(self.guess.correct):
+                break
+            self.check_events()
             self.draw()
             self.update()
-            self.pg.time.wait(DELAY_TIME)
-            tmp.append(correct_btn.name)
         print(tmp)
 
     def new_game(self):
-        # pass
         self.clock.tick(FPS)
         self.play_correct()
-        # self.pg.time.delay(DELAY_TIME)
 
     def run(self):
         while self.is_running:

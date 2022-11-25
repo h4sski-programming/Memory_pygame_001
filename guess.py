@@ -31,6 +31,7 @@ class Guess:
 
     def next_level(self):
         if len(self.player) == len(self.correct):
+            self.pg.time.wait(DELAY_TIME * 2)
             self.add_correct()
             self.player = []
             return True
@@ -43,76 +44,8 @@ class Guess:
         # print(f'{self.correct[new_btn_number].name}')
         if new_btn.name == self.correct[new_btn_number].name:
             self.add_player(new_btn)
-            new_btn.pressed()
+            new_btn.activate()
             return True
         else:
             print('incorrect')
             return False
-
-
-'''
-        def check():
-            for i, p in self.player:
-                if not p.name == self.correct[i].name:
-                    print('incorrect')
-                    break
-
-        if len(self.player) < len(self.correct):
-            check()
-        if len(self.player) == len(self.correct):
-            check()
-            self.player = []
-'''
-'''
-    def __init__(self, game):
-        self.game = game
-        self.correct = []
-        self.player = []
-
-        self.add_correct()
-
-    def add_correct(self):
-        self.correct.append(random.choice(['q', 'w', 'a', 's']))
-        print(f'C {self.correct}')
-
-    def add_player(self, g):
-        self.player.append(g)
-        print(f'P {self.player}')
-
-    def play_correct(self):
-        for i, char in enumerate(self.correct):
-            if char == 'q':
-                self.game.btn_q.activate()
-                # self.game.pg.time.delay(DELAY_TIME)
-                # self.game.btn_q.deactivate()
-            elif char == 'w':
-                self.game.btn_w.activate()
-                # self.game.pg.time.delay(DELAY_TIME)
-                # self.game.btn_w.deactivate()
-            elif char == 'a':
-                self.game.btn_a.activate()
-                # self.game.pg.time.delay(DELAY_TIME)
-                # self.game.btn_a.deactivate()
-            elif char == 's':
-                self.game.btn_s.activate()
-                # self.game.pg.time.delay(DELAY_TIME)
-                # self.game.btn_s.deactivate()
-
-    def check(self, btn):
-        self.add_player(btn)
-
-        for i, p in enumerate(self.player):
-            # not using 'p' since 'self.player[i]' is more readable
-            if not self.correct[i] == self.player[i]:
-                print(f'incorrect')
-                return False
-
-        self.next_level()
-        return True
-
-    def next_level(self):
-        if len(self.player) == len(self.correct):
-            self.game.pg.time.delay(DELAY_TIME * 2)
-            self.add_correct()
-            self.player = []
-            self.play_correct()'''
